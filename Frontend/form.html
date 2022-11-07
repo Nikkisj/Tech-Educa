@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Form</title>
+    <link rel="stylesheet" href="form.css">
+
+</head>
+<body>
+    <div class="enrollment-form">
+        <h1>Enrollment Form</h1>
+        <form id="form">
+            <p>Fullname</p>
+            <input type="text" name="fullname"placeholder="fullname">
+            <p>Username</p>
+            <input type="text" name="username"placeholder="Username">
+            <p>Email</p>
+            <input type="text" name="email"placeholder="Email">
+            <p>Password</p>
+            <input type="text" name="password"placeholder="Password">
+            <p>Course name</p>
+            <input type="text" id="course" name="courses"placeholder="enter your desired course">
+            <button id="btnEnroll">Enroll</button>
+        </form>
+    </div>
+    <script>
+        const enrollForm = document.querySelector("#form");
+        const btnEnroll = document.querySelector("#btnEnroll");
+        btnEnroll.addEventListener("click", (event) => {
+            event.preventDefault();
+            const {fullname, username, email, password, courses} = enrollForm;
+            const data = {
+                fullname:fullname.value, 
+                username:username.value, 
+                email:email.value, 
+                password:password.value, 
+                courses:courses.value
+            }
+            console.log(data);
+            fetch("http://localhost:5000/enroll",{
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify(data)
+            }).then(response => {
+                console.log(response.status);
+                if(response.status === 200){
+                    alert("Success");
+                }else if(response.status === 400){
+                    alert("Something went wrong");
+                }
+            })
+            alert()
+        });
+        enrollForm.addEventListener("submit", e => {
+            e.preventDefault();
+        })
+        // const courseName = document.cookie.split("courseName")[1].split(";")[0].split("=")[1];
+        // const course = document.querySelector("#course");
+        // course.value = courseName;
+        // document.cookie = "courseName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    </script>
+</body>
+</html>
